@@ -1,0 +1,8 @@
+nltk
+tqdm
+scipy
+matplotlib
+scikit-image
+Pillow
+imageio
+rouge-score
