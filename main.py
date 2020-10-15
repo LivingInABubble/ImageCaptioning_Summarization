@@ -18,8 +18,8 @@ from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize
 from rouge_score import rouge_scorer
 from summarizer import Summarizer, TransformerSummarizer
-from tqdm import tqdm
-# from tqdm.notebook import tqdm
+# from tqdm import tqdm
+from tqdm.notebook import tqdm
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
