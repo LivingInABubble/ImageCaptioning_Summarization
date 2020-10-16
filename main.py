@@ -248,7 +248,7 @@ def main():
     elif args.model == 'gpt':
         summarizer = TransformerSummarizer(transformer_type='GPT2', transformer_model_key='gpt2')
     else:
-        print('select bert or gpt')
+        print('only bert or gpt')
         return
 
     # Load word map (word2ix)
@@ -260,9 +260,9 @@ def main():
         file.writelines('filename,precision,recall,f1measure\n')
 
     for image in tqdm(sorted(os.listdir(args.img)), file=stdout):
-        print(image)
+        # print(image)
 
-        t = time()
+        # t = time()
         img_path = os.path.join(args.img, image)
         # Encode, decode with attention and beam search
         seq = caption_image_beam_search(encoder, decoder, img_path, word_map, args.beam_size)
@@ -273,7 +273,7 @@ def main():
 
         # Visualize caption and attention of best sequence
         # visualize_att(img_path, seq, alphas, rev_word_map, args.smooth)
-        print('time for image captioning:', time() - t)
+        # print('time for image captioning:', time() - t)
 
         keywords = [rev_word_map[s] for s in seq]
         stop_words = set(stopwords.words('english'))
@@ -290,22 +290,22 @@ def main():
 
         texts, sentences = ' '.join(texts), ' '.join(sentences)
 
-        t = time()
+        # t = time()
         summary1 = summarizer(texts)
-        print('time for summarization on whole texts:', time() - t)
+        # print('time for summarization on whole texts:', time() - t)
 
-        t = time()
+        # t = time()
         summary2 = summarizer(sentences)
-        print('time for summarization on selected sentences:', time() - t)
+        # print('time for summarization on selected sentences:', time() - t)
 
-        t = time()
+        # t = time()
         scorer = rouge_scorer.RougeScorer(['rouge1'], use_stemmer=True)
         scores = scorer.score(summary1, summary2)['rouge1']
-        print('rouge1:', scores)
+        # print('rouge1:', scores)
         with open('rough score.csv', 'a') as file:
             file.write(','.join([image, str(scores.precision), str(scores.recall), str(scores.fmeasure), '\n']))
 
-        print('time for calculating rouge score:', time() - t)
+        # print('time for calculating rouge score:', time() - t)
 
 
 if __name__ == '__main__':
